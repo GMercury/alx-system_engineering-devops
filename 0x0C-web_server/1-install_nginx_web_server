@@ -1,21 +1,8 @@
 #!/usr/bin/env bash
-#
-# Install NGINX on my server
+# installs and configures nginx web server to listen to port 80 and
+# serves a page with content `Hello World` when / is querried
 
 apt-get -y update
 apt-get -y install nginx
-
-cat > /var/www/html/index.html << 'EOF' 
-<html>
-  <head>
-    <title>Holberton School</title>
-  </head>
-  <body>
-    <p>Holberton School for the win!</p>
-  </body>
-</html>
-EOF
-
-service nginx start
-
-ufw allow 'Nginx HTTP'
+echo "Hello World" | sudo tee /var/www/html/index.html
+sudo /etc/init.d/nginx restart

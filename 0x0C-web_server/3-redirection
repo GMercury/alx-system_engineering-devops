@@ -1,27 +1,7 @@
 #!/usr/bin/env bash
-#
-# Install NGINX on my server
-
-NYANCAT='https://www.youtube.com/watch?v=QH2-TGUlwu4'
-
+# Script that installs Nginx server and redirects /redirect_me
 apt-get -y update
 apt-get -y install nginx
-
-sed -i '
-s@^\troot /var/www/html;$@&\n\trewrite ^/redirect_me '"${NYANCAT}"' permanent;@
-' /etc/nginx/sites-available/default
-
-cat > /var/www/html/index.html << 'EOF' 
-<html>
-  <head>
-    <title>Holberton School</title>
-  </head>
-  <body>
-    <p>Holberton School for the win!</p>
-  </body>
-</html>
-EOF
-
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/luischaparroc permanent;/" /etc/nginx/sites-available/default
 service nginx start
-
-ufw allow 'Nginx HTTP'
